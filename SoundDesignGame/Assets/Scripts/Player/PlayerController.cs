@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
                 playerSounds.StaminaSound(0.1f, 0);
                 break;
             case Stamina.High:
-                playerSounds.StaminaSound(0.2f, 0); //not a mistake
+                playerSounds.StaminaSound(0.2f, 0); //same sound but louder
                 break;
             case Stamina.Mid:
                 playerSounds.StaminaSound(0.3f, 1);

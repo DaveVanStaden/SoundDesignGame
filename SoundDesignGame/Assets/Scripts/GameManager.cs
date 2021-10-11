@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private BackgroundNoise backgroundNoise;
+    private BackgroundNoise backgroundNoise;
     [SerializeField] private Tutorial tutorial;
 
     private void Start()
     {
+        tutorial = GameObject.Find("Player").GetComponentInChildren<Tutorial>();
         tutorial.StartCoroutine("StartGame");
-        //backgroundNoise.StartCoroutine("PlayARandomNoise");
     }
 }

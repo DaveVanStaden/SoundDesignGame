@@ -19,11 +19,13 @@ public class Tutorial : MonoBehaviour
     
     public AudioSource audioSource;
     private PlayerController player;
+    private GameManager gameManager;
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     public IEnumerator StartGame()
@@ -38,7 +40,7 @@ public class Tutorial : MonoBehaviour
 
     public IEnumerator Footsteps()
     {
-        for (int i = 0; i < amountOfFootsteps + 4; i++) //+4 is hoeveel stappen hij zet terwijl alarm afgaat
+        for (int i = 0; i < amountOfFootsteps + 4; i++) //+4 is hoeveel stappen hij zet terwijl alarm afgaat 
         {
             randomFootstep = Random.Range(0, walkingFootsteps.Count);
             audioSource.PlayOneShot(walkingFootsteps[randomFootstep]);

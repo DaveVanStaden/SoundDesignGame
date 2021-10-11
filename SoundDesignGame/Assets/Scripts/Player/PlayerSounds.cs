@@ -61,7 +61,7 @@ public class PlayerSounds : MonoBehaviour
             isPlayingSound = false;
             yield break;
         }
-            StartCoroutine("WalkingLoop");
+        StartCoroutine("WalkingLoop");
     }
 
     public void RunningSounds()

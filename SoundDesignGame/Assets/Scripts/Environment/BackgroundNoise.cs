@@ -7,6 +7,9 @@ public class BackgroundNoise : MonoBehaviour
     private AudioSource audioSource;
     private int randomSound;
 
+    [SerializeField] private AudioSource audioSourceWind;
+    [SerializeField] private AudioClip roarSound;
+
     [Header("LIST OF RANDOM NOISES")]
     [SerializeField] private List<AudioClip> randomNoises = new List<AudioClip>();
 
@@ -26,16 +29,17 @@ public class BackgroundNoise : MonoBehaviour
 
     public IEnumerator PlayARandomNoise() //speelt een random sound uit de list
     {
-        randomSound = Random.Range(0, randomNoises.Count); //kiest een random geluid
+        /*randomSound = Random.Range(0, randomNoises.Count); //kiest een random geluid
         randomWaitTime = Random.Range(minWaitTime, maxWaitTime); //kiest een random wachttijd tussen 2 geluiden
 
         audioSource.PlayOneShot(randomNoises[randomSound]);
         yield return new WaitForSeconds(randomNoises[randomSound].length + randomWaitTime); //wacht de lengte van de audioclip af + extra random waittime
-        StartCoroutine("PlayARandomNoise");
+        StartCoroutine("PlayARandomNoise");*/
+        yield break;
     }
 
-    public IEnumerator ConstantNoise()
+    public void Wind()
     {
-        yield break;
+        audioSourceWind.Play();
     }
 }

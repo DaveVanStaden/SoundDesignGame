@@ -6,10 +6,12 @@ public class PlayerSounds : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSourceWalking;
     [SerializeField] private AudioSource audioSourceBreathing;
+    [SerializeField] private AudioSource audioSourceDies;
 
     private PlayerController player;
 
     private bool isPlayingSound = false;
+    private bool dead;
 
     [Header("SNEAKING")]
     [SerializeField] private List<AudioClip> sneakingFootsteps = new List<AudioClip>();
@@ -28,6 +30,9 @@ public class PlayerSounds : MonoBehaviour
 
     [Header("STAMINA")]
     [SerializeField] private List<AudioClip> breathing = new List<AudioClip>();
+
+    [Header("DIE")]
+    [SerializeField] private AudioClip dies;
 
     private void Start()
     {
@@ -86,9 +91,18 @@ public class PlayerSounds : MonoBehaviour
 
     public void StaminaSound(float staminaVolume, int clipNumber)
     {
+        if (dead) return;
         if (player.movement == PlayerController.Movement.InTutorial) return;
         audioSourceBreathing.volume = staminaVolume;
         if (audioSourceBreathing.isPlaying) return;
         audioSourceBreathing.PlayOneShot(breathing[clipNumber]);
+    }
+
+    public void PlayerDyingSound()
+    {
+        if (dead) return;
+        Debug.Log(dies);
+        audioSourceDies.PlayOneShot(dies);
+        dead = true;
     }
 }

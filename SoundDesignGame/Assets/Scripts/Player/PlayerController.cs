@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private PlayerSounds playerSounds;
+    private BackgroundNoise bgNoise;
 
     [Header("STAMINA")]
     [SerializeField] private float minStamina;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public Stamina stamina;
 
     private float speed;
+    public bool died = false;
 
     public enum Movement
     {
@@ -55,6 +57,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (died) return;
+
+        if (stamina == Stamina.Out)
+        {
+            movement = Movement.StandStill;
+            speed = 0f;
+            return;
+        }
+
         switch (movement)
         {
             case Movement.InTutorial:
@@ -68,15 +79,15 @@ public class PlayerController : MonoBehaviour
             case Movement.Walking:
                 speed = walkingSpeed;
                 playerSounds.WalkingSounds();
-                staminaRemaining += Time.deltaTime / 3f; //gain 1 stamina every 3 seconds (out of 10 max)
+                staminaRemaining += Time.deltaTime / 4f; //gain 1 stamina every 4 seconds (out of 10 max)
                 break;
             case Movement.Running:
                 speed = runningSpeed;
                 playerSounds.RunningSounds();
-                staminaRemaining -= Time.deltaTime / 1.5f; //lose 1.5 stamina every second
+                staminaRemaining -= Time.deltaTime; //lose 1 stamina every second
                 break;
             case Movement.StandStill:
-                speed = 0f;
+                died = true;
                 break;
         }
 
@@ -96,7 +107,6 @@ public class PlayerController : MonoBehaviour
                 break;
             case Stamina.Out:
                 playerSounds.StaminaSound(0.5f, 3);
-                movement = Movement.StandStill;
                 break;
         }
 

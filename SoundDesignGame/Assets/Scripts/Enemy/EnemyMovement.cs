@@ -46,6 +46,7 @@ public class EnemyMovement : MonoBehaviour
         Attacking,
         OutOfRange,
         Freeze,
+        KilledPlayer,
     }
 
     private void Start()
@@ -59,8 +60,13 @@ public class EnemyMovement : MonoBehaviour
     private void Update()
     {
         if (playerController.movement == PlayerController.Movement.InTutorial) return;
+<<<<<<< Updated upstream
 
         speedMultiplier += Time.deltaTime * difficulty; //multiplier to increase difficulty over time
+=======
+        //speedMultiplier += Time.deltaTime * difficulty; //multiplier to increase difficulty over time
+        if (enemy == Enemy.KilledPlayer) return;
+>>>>>>> Stashed changes
 
         switch (enemy)
         {
@@ -74,6 +80,7 @@ public class EnemyMovement : MonoBehaviour
                 break;
             case Enemy.Attacking:
                 speed = 0f;
+                gameManager.PlayerDied();
                 break;
             case Enemy.OutOfRange:
                 speed = runningSpeed * 10f; //if player is way too far, make sure enemy stays inside a certain range so it doesnt get too far
@@ -81,6 +88,9 @@ public class EnemyMovement : MonoBehaviour
             case Enemy.Freeze:
                 speed = 0f;
                 StartCoroutine("FreezeState");
+                break;
+            case Enemy.KilledPlayer:
+                speed = 0f;
                 break;
         }
 
@@ -120,8 +130,16 @@ public class EnemyMovement : MonoBehaviour
             enemy = Enemy.Running;
         else if (Vector3.Distance(transform.position, player.transform.position) >= walkingRange)
             enemy = Enemy.Walking;
+<<<<<<< Updated upstream
         else if (Vector3.Distance(transform.position, player.transform.position) < walkingRange)
             enemy = Enemy.Attacking;
+=======
+        else if (Vector3.Distance(transform.position, player.transform.position) < attackingRange)
+        {
+            enemy = Enemy.Attacking; //zodat we later meerdere hits kunnen implementen
+        }
+            
+>>>>>>> Stashed changes
     }
 
     private void OnDrawGizmos()

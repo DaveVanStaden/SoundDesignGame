@@ -15,13 +15,10 @@ public class BackgroundNoise : MonoBehaviour
     [SerializeField] private int maxWaitTime;
     private int randomWaitTime;
 
-    [Header("CONSTANT NOISE")]
-    [SerializeField] private AudioClip wind;
-    [SerializeField] private AudioClip crickets;
-
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        StartCoroutine("PlayARandomNoise");
     }
 
     public IEnumerator PlayARandomNoise() //speelt een random sound uit de list

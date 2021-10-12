@@ -4,73 +4,46 @@ using UnityEngine;
 
 public class EnemySounds : MonoBehaviour
 {
-    [SerializeField] private AudioSource audioSourceFeet;
-    [SerializeField] private AudioSource audioSourceMouth;
+    [SerializeField] private AudioSource audioSource;
     private int randomFootstep;
     private bool isPlayingSound;
 
     [Header("ROAR")]
-    [SerializeField] private AudioClip roar;
+    [SerializeField] private AudioClip singleRoar;
+    [SerializeField] private AudioClip constantRoar;
 
     [Header("FOOTSTEPS WALKING")]
-    [SerializeField] private List<AudioClip> enemyFootsteps = new List<AudioClip>();
-    [SerializeField] private float timeBetweenFootstepsWalking;
-
-    [Header("FOOTSTEPS WALKING")]
-    [SerializeField] private List<AudioClip> enemyFootstepsRunning = new List<AudioClip>();
-    [SerializeField] private float timeBetweenFootstepsRunning;
+    [SerializeField] private AudioClip enemyFootsteps;
 
     private EnemyMovement enemy;
 
     private void Start()
     {
         enemy = GameObject.Find("Enemy").GetComponent<EnemyMovement>();
-        RoarSounds();
+        ConstantRoarSounds();
+        EnemyFootstepsWalking();
+
+
     }
 
-    public void RoarSounds()
+    private void Update()
     {
-        if (audioSourceMouth.isPlaying) return;
-        audioSourceMouth.PlayOneShot(roar);
+        ConstantRoarSounds();
+    }
+
+    public void ConstantRoarSounds()
+    {
+        if (audioSource.isPlaying) return;
+        audioSource.PlayOneShot(constantRoar);
+    }
+
+    public void SingeRoar()
+    {
+        audioSource.PlayOneShot(singleRoar);
     }
 
     public void EnemyFootstepsWalking()
     {
-        if (isPlayingSound) return;
-        isPlayingSound = true;
-        StartCoroutine("PlayFootstepsWalking");
-    }
-
-    private IEnumerator PlayFootstepsWalking()
-    {
-        randomFootstep = Random.Range(0, enemyFootsteps.Count);
-        audioSourceFeet.PlayOneShot(enemyFootsteps[randomFootstep]);
-        yield return new WaitForSeconds(timeBetweenFootstepsWalking);
-        if(enemy.enemy != EnemyMovement.Enemy.Walking)
-        {
-            isPlayingSound = false;
-            yield break;
-        }
-        StartCoroutine("PlayFootstepsWalking");
-    }
-
-    public void EnemyFootstepsRunning()
-    {
-        if (isPlayingSound) return;
-        isPlayingSound = true;
-        StartCoroutine("PlayFootstepsRunning");
-    }
-
-    private IEnumerator PlayFootstepsRunning()
-    {
-        randomFootstep = Random.Range(0, enemyFootsteps.Count);
-        audioSourceFeet.PlayOneShot(enemyFootsteps[randomFootstep]);
-        yield return new WaitForSeconds(timeBetweenFootstepsWalking);
-        if (enemy.enemy != EnemyMovement.Enemy.Running)
-        {
-            isPlayingSound = false;
-            yield break;
-        }
-        StartCoroutine("PlayFootstepsRunning");
+        audioSource.PlayOneShot(enemyFootsteps);
     }
 }

@@ -751,11 +751,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomNoises:
-  - {fileID: 0}
-  minWaitTime: 3
-  maxWaitTime: 10
-  wind: {fileID: 0}
-  crickets: {fileID: 0}
+  - {fileID: 8300000, guid: 8dfa2a813fd3e7d40b2f1bd4cba26504, type: 3}
+  - {fileID: 8300000, guid: 0b129ad64d5502140925c9bce4620a8e, type: 3}
+  - {fileID: 8300000, guid: 0d19522ddbe0ace47ba14b3644443340, type: 3}
+  - {fileID: 8300000, guid: 59d646bb461ecfb48bcd39d67b6967bb, type: 3}
+  minWaitTime: 5
+  maxWaitTime: 20
 --- !u!82 &642975400
 AudioSource:
   m_ObjectHideFlags: 0
@@ -978,7 +979,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -1022,7 +1023,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 2.06, z: 5.2099915}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 564303315}
@@ -1039,7 +1040,6 @@ GameObject:
   - component: {fileID: 1096614094}
   - component: {fileID: 1096614097}
   - component: {fileID: 1096614096}
-  - component: {fileID: 1096614095}
   m_Layer: 0
   m_Name: Sounds
   m_TagString: Untagged
@@ -1061,102 +1061,6 @@ Transform:
   m_Father: {fileID: 1686651713}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &1096614095
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1096614093}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!82 &1096614096
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1169,18 +1073,18 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.345
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 0
+  MaxDistance: 50
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1213,7 +1117,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1265,13 +1169,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9acda63abc6d894cb1fcede8e555cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSourceFeet: {fileID: 1096614096}
-  audioSourceMouth: {fileID: 1096614095}
-  roar: {fileID: 0}
-  enemyFootsteps: []
-  timeBetweenFootstepsWalking: 0.6
-  enemyFootstepsRunning: []
-  timeBetweenFootstepsRunning: 0.3
+  audioSource: {fileID: 1096614096}
+  singleRoar: {fileID: 8300000, guid: 00f8dafed5da2c24894e05884bfd630e, type: 3}
+  constantRoar: {fileID: 8300000, guid: b0f1f4f1666835c42be9b9fbc48f050f, type: 3}
+  enemyFootsteps: {fileID: 8300000, guid: e2bce58ade05ff14ea81157572172f1a, type: 3}
 --- !u!1 &1215084661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1427,13 +1328,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c73d07670f2c2dc45b7f2e003cc03df2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: 1.02
   changeStateCooldownTimer: 5
   maxDistanceFromPlayer: 50
-  runningRange: 30
   runningSpeed: 2
-  walkingRange: 5
+  walkingRange: 25.61
   walkingSpeed: 1.1
+  attackingRange: 1.26
   freezeTime: 3
   freezeStatesRemaining: 5
   enemy: 0

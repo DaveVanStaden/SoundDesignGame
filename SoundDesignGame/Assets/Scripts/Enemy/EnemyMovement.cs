@@ -6,9 +6,6 @@ using UnityEditor;
 public class EnemyMovement : MonoBehaviour
 {
     private float speed;
-    private float speedMultiplier;
-
-    [SerializeField] private float difficulty;
 
     [SerializeField] private float changeStateCooldownTimer;
 
@@ -16,7 +13,6 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float maxDistanceFromPlayer;
 
     [Header("RUNNING STATE")]
-    [SerializeField] private float runningRange;
     [SerializeField] private float runningSpeed;
 
     [Header("WALKING STATE")]
@@ -24,7 +20,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float walkingSpeed;
 
     [Header("ATTACKING STATE")]
-
+    [SerializeField] private float attackingRange;
 
     [Header("FREEZE STATE")]
     [SerializeField] private float freezeTime;
@@ -60,17 +56,17 @@ public class EnemyMovement : MonoBehaviour
     {
         if (playerController.movement == PlayerController.Movement.InTutorial) return;
 
-        speedMultiplier += Time.deltaTime * difficulty; //multiplier to increase difficulty over time
+        //speedMultiplier += Time.deltaTime * difficulty; //multiplier to increase difficulty over time
 
         switch (enemy)
         {
             case Enemy.Walking:
                 speed = walkingSpeed;
-                enemySounds.EnemyFootstepsWalking();
+                //enemySounds.EnemyFootstepsWalking();
                 break;
             case Enemy.Running:
                 speed = runningSpeed;
-                enemySounds.EnemyFootstepsRunning();
+                //enemySounds.EnemyFootstepsWalking(); //we hebben nog geen geluid voor rennend monster, niet super balangrijk
                 break;
             case Enemy.Attacking:
                 speed = 0f;
@@ -107,7 +103,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (playerController.movement == PlayerController.Movement.InTutorial || isFrozen) return;
 
-        transform.position += new Vector3(0, 0, speed * speedMultiplier) * Time.deltaTime;
+        transform.position += new Vector3(0, 0, speed) * Time.deltaTime;
     }
 
     private void StateCheck()
@@ -116,11 +112,11 @@ public class EnemyMovement : MonoBehaviour
 
         if (Vector3.Distance(transform.position, player.transform.position) > maxDistanceFromPlayer)
             enemy = Enemy.OutOfRange;
-        else if (Vector3.Distance(transform.position, player.transform.position) > runningRange)
+        else if (Vector3.Distance(transform.position, player.transform.position) > walkingRange)
             enemy = Enemy.Running;
-        else if (Vector3.Distance(transform.position, player.transform.position) >= walkingRange)
+        else if (Vector3.Distance(transform.position, player.transform.position) >= attackingRange)
             enemy = Enemy.Walking;
-        else if (Vector3.Distance(transform.position, player.transform.position) < walkingRange)
+        else if (Vector3.Distance(transform.position, player.transform.position) < attackingRange)
             enemy = Enemy.Attacking;
     }
 
@@ -130,9 +126,9 @@ public class EnemyMovement : MonoBehaviour
         Handles.DrawWireDisc(transform.position, new Vector3(0f, transform.forward.z, 0f), maxDistanceFromPlayer * 2);
 
         Handles.color = Color.red;
-        Handles.DrawWireDisc(transform.position, new Vector3(0f, transform.forward.z, 0f), runningRange * 2);
+        Handles.DrawWireDisc(transform.position, new Vector3(0f, transform.forward.z, 0f), walkingRange * 2);
 
         Handles.color = Color.black;
-        Handles.DrawWireDisc(transform.position, new Vector3(0f, transform.forward.z, 0f), walkingRange * 2);
+        Handles.DrawWireDisc(transform.position, new Vector3(0f, transform.forward.z, 0f), attackingRange * 2);
     }
 } //yo

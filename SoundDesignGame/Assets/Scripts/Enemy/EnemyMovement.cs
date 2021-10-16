@@ -24,7 +24,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float walkingSpeed;
 
     [Header("ATTACKING STATE")]
-
+    [SerializeField] private float attackingRange;
 
     [Header("FREEZE STATE")]
     [SerializeField] private float freezeTime;
@@ -60,23 +60,17 @@ public class EnemyMovement : MonoBehaviour
     private void Update()
     {
         if (playerController.movement == PlayerController.Movement.InTutorial) return;
-<<<<<<< Updated upstream
 
-        speedMultiplier += Time.deltaTime * difficulty; //multiplier to increase difficulty over time
-=======
         //speedMultiplier += Time.deltaTime * difficulty; //multiplier to increase difficulty over time
         if (enemy == Enemy.KilledPlayer) return;
->>>>>>> Stashed changes
 
         switch (enemy)
         {
             case Enemy.Walking:
                 speed = walkingSpeed;
-                enemySounds.EnemyFootstepsWalking();
                 break;
             case Enemy.Running:
                 speed = runningSpeed;
-                enemySounds.EnemyFootstepsRunning();
                 break;
             case Enemy.Attacking:
                 speed = 0f;
@@ -104,7 +98,7 @@ public class EnemyMovement : MonoBehaviour
         isFrozen = true;
         yield return new WaitForSeconds(freezeTime);
         isFrozen = false;
-    } 
+    }
 
     private IEnumerator Cooldown() //dont switch state too often
     {
@@ -117,7 +111,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (playerController.movement == PlayerController.Movement.InTutorial || isFrozen) return;
 
-        transform.position += new Vector3(0, 0, speed * speedMultiplier) * Time.deltaTime;
+        transform.position += new Vector3(0, 0, speed) * Time.deltaTime;
     }
 
     private void StateCheck()
@@ -130,27 +124,23 @@ public class EnemyMovement : MonoBehaviour
             enemy = Enemy.Running;
         else if (Vector3.Distance(transform.position, player.transform.position) >= walkingRange)
             enemy = Enemy.Walking;
-<<<<<<< Updated upstream
         else if (Vector3.Distance(transform.position, player.transform.position) < walkingRange)
             enemy = Enemy.Attacking;
-=======
         else if (Vector3.Distance(transform.position, player.transform.position) < attackingRange)
         {
             enemy = Enemy.Attacking; //zodat we later meerdere hits kunnen implementen
         }
-            
->>>>>>> Stashed changes
     }
 
     private void OnDrawGizmos()
     {
-        Handles.color = Color.green;
+        /*Handles.color = Color.green;
         Handles.DrawWireDisc(transform.position, new Vector3(0f, transform.forward.z, 0f), maxDistanceFromPlayer * 2);
 
         Handles.color = Color.red;
         Handles.DrawWireDisc(transform.position, new Vector3(0f, transform.forward.z, 0f), runningRange * 2);
 
         Handles.color = Color.black;
-        Handles.DrawWireDisc(transform.position, new Vector3(0f, transform.forward.z, 0f), walkingRange * 2);
+        Handles.DrawWireDisc(transform.position, new Vector3(0f, transform.forward.z, 0f), walkingRange * 2);*/
     }
 } //yo

@@ -46,7 +46,7 @@ public class PlayerSounds : MonoBehaviour
 
     public void SneakingSounds()
     {
-        
+
     }
 
     public void WalkingSounds()

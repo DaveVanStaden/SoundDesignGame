@@ -18,7 +18,7 @@ public class Tutorial : MonoBehaviour
     [Header("SOUNDS FOR TUTORIAL")]
     [SerializeField] private AudioClip tutorialStory;
     [SerializeField] private AudioClip tutorialControls;
-    
+
     public AudioSource audioSource;
     private PlayerController player;
     private GameManager gameManager;
@@ -53,7 +53,7 @@ public class Tutorial : MonoBehaviour
                 yield return new WaitForSeconds(3f);
                 audioSource.PlayOneShot(whatsThatNoise);
             }
-                
+
         }
     }
 
@@ -63,7 +63,7 @@ public class Tutorial : MonoBehaviour
         audioSource.PlayOneShot(tutorialStory);
         yield return new WaitForSeconds(tutorialStory.length + 0.5f); //wacht tot de story is afgelopen
 
-        
+
 
         audioSource.PlayOneShot(tutorialControls);
         yield return new WaitForSeconds(tutorialControls.length + timeBetweenVoiceLines); //wacht tot de controls zijn uitgelegd

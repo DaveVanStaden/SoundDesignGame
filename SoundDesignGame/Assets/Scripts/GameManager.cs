@@ -29,8 +29,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDied()
     {
-        playerController.movement = PlayerController.Movement.StandStill;
+        //playerController.movement = PlayerController.Movement.StandStill;
         enemy.enemy = EnemyMovement.Enemy.KilledPlayer;
-        playerSounds.PlayerDyingSound();
     }
 }

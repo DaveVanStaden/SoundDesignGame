@@ -37,6 +37,7 @@ public class EnemyMovement : MonoBehaviour
     private GameManager gameManager;
     private PlayerController playerController;
     private EnemySounds enemySounds;
+    private Exit exit;
 
     public Enemy enemy;
     public enum Enemy
@@ -55,10 +56,14 @@ public class EnemyMovement : MonoBehaviour
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         enemySounds = GetComponentInChildren<EnemySounds>();
+        exit = GameObject.Find("End").GetComponent<Exit>();
+
     }
 
     private void Update()
     {
+        if (exit.completedGame == true) Destroy(this.gameObject); //finished game so destroy enemy
+
         if (playerController.movement == PlayerController.Movement.InTutorial) return;
 
         //speedMultiplier += Time.deltaTime * difficulty; //multiplier to increase difficulty over time
@@ -74,7 +79,7 @@ public class EnemyMovement : MonoBehaviour
                 break;
             case Enemy.Attacking:
                 speed = 0f;
-                gameManager.PlayerDied();
+                playerController.movement = PlayerController.Movement.Hit;
                 break;
             case Enemy.OutOfRange:
                 speed = runningSpeed * 10f; //if player is way too far, make sure enemy stays inside a certain range so it doesnt get too far

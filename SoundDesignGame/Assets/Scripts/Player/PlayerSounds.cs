@@ -9,14 +9,12 @@ public class PlayerSounds : MonoBehaviour
     [SerializeField] private AudioSource audioSourceDies;
 
     private PlayerController player;
+    private Exit exit;
 
     private bool isPlayingSound = false;
     private bool dead;
-
-    [Header("SNEAKING")]
-    [SerializeField] private List<AudioClip> sneakingFootsteps = new List<AudioClip>();
-    [SerializeField] private float sneakingTimeBetweenFootsteps;
-    private int randomSneakFootstep;
+    private int i;
+    private bool takingDmg;
 
     [Header("WALKING")]
     [SerializeField] private List<AudioClip> walkingFootsteps = new List<AudioClip>();
@@ -32,21 +30,14 @@ public class PlayerSounds : MonoBehaviour
     [SerializeField] private List<AudioClip> breathing = new List<AudioClip>();
 
     [Header("DIE")]
-    [SerializeField] private AudioClip dies;
+    [SerializeField] private List<AudioClip> playerHitSound = new List<AudioClip>();
+    [SerializeField] private List<AudioClip> enemyHitSound = new List<AudioClip>();
+    [SerializeField] private AudioClip growl;
 
     private void Start()
     {
         player = GetComponent<PlayerController>();
-    }
-
-    public void TutorialSounds()
-    {
-
-    }
-
-    public void SneakingSounds()
-    {
-
+        exit = GameObject.Find("End").GetComponent<Exit>();
     }
 
     public void WalkingSounds()
@@ -58,6 +49,7 @@ public class PlayerSounds : MonoBehaviour
 
     public IEnumerator WalkingLoop()
     {
+        if (exit.completedGame) yield break;
         randomWalkFootstep = Random.Range(0, walkingFootsteps.Count);
         audioSourceWalking.PlayOneShot(walkingFootsteps[randomWalkFootstep]);
         yield return new WaitForSeconds(walkingTimeBetweenFootsteps);
@@ -78,6 +70,7 @@ public class PlayerSounds : MonoBehaviour
 
     public IEnumerator RunningLoop()
     {
+        if (exit.completedGame) yield break;
         randomRunFootstep = Random.Range(0, runningFootsteps.Count);
         audioSourceWalking.PlayOneShot(runningFootsteps[randomRunFootstep]);
         yield return new WaitForSeconds(runningTimeBetweenFootsteps);
@@ -100,9 +93,20 @@ public class PlayerSounds : MonoBehaviour
 
     public void PlayerDyingSound()
     {
-        if (dead) return;
-        Debug.Log(dies);
-        audioSourceDies.PlayOneShot(dies);
-        dead = true;
+        if (dead || takingDmg) return;
+        i++;
+        StartCoroutine("PlayHitSound");
+    }
+
+    private IEnumerator PlayHitSound()
+    {
+        if (takingDmg) yield break;
+        takingDmg = true;
+        audioSourceDies.PlayOneShot(enemyHitSound[i]);
+        audioSourceDies.PlayOneShot(growl);
+        yield return new WaitForSeconds(1f);
+        audioSourceDies.PlayOneShot(playerHitSound[i]);
+        takingDmg = false;
+        yield break;
     }
 }

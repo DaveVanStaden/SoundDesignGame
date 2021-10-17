@@ -5,17 +5,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private PlayerSounds playerSounds;
-    private BackgroundNoise bgNoise;
+
+    [SerializeField] private int health;
 
     [Header("STAMINA")]
     [SerializeField] private float minStamina;
     [SerializeField] private float maxStamina;
     [SerializeField] private float staminaRemaining;
-
-    [Header("TUTORIAL STATE")]
-
-    [Header("SNEAKING STATE")]
-    [SerializeField] private float sneakingSpeed; //we doen voor nu alleen nog walking/running
 
     [Header("WALKING STATE")]
     [SerializeField] private float walkingSpeed;
@@ -26,16 +22,21 @@ public class PlayerController : MonoBehaviour
     public Movement movement;
     public Stamina stamina;
 
-    private float speed;
+    public float speed;
+    private float currentTime;
+    private float maxTime = 7f;
     public bool died = false;
+    private bool boost;
+
+    private Exit exit;
 
     public enum Movement
     {
         InTutorial,
-        Sneaking,
         Walking,
         Running,
-        StandStill,
+        Hit,
+        Tired,
     }
 
     public enum Stamina
@@ -53,15 +54,27 @@ public class PlayerController : MonoBehaviour
         movement = Movement.InTutorial;
         stamina = Stamina.Full;
         staminaRemaining = maxStamina;
+        exit = GameObject.Find("End").GetComponent<Exit>();
     }
 
     private void Update()
     {
+        if (exit.completedGame)
+        {
+            speed = 0f;
+            return;
+        }
+
+        if(currentTime > 0f)
+        {
+            currentTime -= Time.deltaTime;
+        }
+
         if (died) return;
 
         if (stamina == Stamina.Out)
         {
-            movement = Movement.StandStill;
+            // = Movement.Hit;
             speed = 0f;
             return;
         }
@@ -70,11 +83,6 @@ public class PlayerController : MonoBehaviour
         {
             case Movement.InTutorial:
                 speed = 0f;
-                playerSounds.TutorialSounds();
-                break;
-            case Movement.Sneaking:
-                speed = sneakingSpeed;
-                playerSounds.SneakingSounds(); //not implemented
                 break;
             case Movement.Walking:
                 speed = walkingSpeed;
@@ -84,26 +92,50 @@ public class PlayerController : MonoBehaviour
             case Movement.Running:
                 speed = runningSpeed;
                 playerSounds.RunningSounds();
-                staminaRemaining -= Time.deltaTime; //lose 1 stamina every second
+                staminaRemaining -= Time.deltaTime / 1.5f; //lose 0.75 stamina every second
                 break;
-            case Movement.StandStill:
-                died = true;
+            case Movement.Hit:
+                playerSounds.RunningSounds();
+                if (currentTime <= 0f)
+                {
+                    if (health != 0)
+                    {
+                        health--;
+                        speed = 8f;
+                        playerSounds.PlayerDyingSound();
+                        staminaRemaining = 7f;
+                    }
+                    else
+                        died = true;
+
+                    currentTime = maxTime;
+                }
+                if (!boost) StartCoroutine("SpeedBoost");
+                boost = true;
+                break;
+            case Movement.Tired:
+                speed = 0f;
+                staminaRemaining += Time.deltaTime / 0.2f;
+                if(staminaRemaining > 1f)
+                {
+                    movement = Movement.Walking;
+                }
                 break;
         }
 
         switch (stamina)
         {
             case Stamina.Full:
-                playerSounds.StaminaSound(0.1f, 0);
+                playerSounds.StaminaSound(0.2f, 0);
                 break;
             case Stamina.High:
-                playerSounds.StaminaSound(0.2f, 0); //same sound but louder
+                playerSounds.StaminaSound(0.3f, 0);
                 break;
             case Stamina.Mid:
-                playerSounds.StaminaSound(0.3f, 1);
+                playerSounds.StaminaSound(0.4f, 1);
                 break;
             case Stamina.Low:
-                playerSounds.StaminaSound(0.4f, 2);
+                playerSounds.StaminaSound(0.5f, 2);
                 break;
             case Stamina.Out:
                 playerSounds.StaminaSound(0.5f, 3);
@@ -118,6 +150,8 @@ public class PlayerController : MonoBehaviour
 
     private void Inputs()
     {
+        if (movement == Movement.Hit || movement == Movement.Tired) return;
+
         if (Input.GetKey(KeyCode.UpArrow)) //running wanneer keycode arrowup, else walking
             movement = Movement.Running;
         else
@@ -145,5 +179,12 @@ public class PlayerController : MonoBehaviour
         if (movement == Movement.InTutorial) return; //return als we nog in de tutorial zitten
 
         transform.position += new Vector3(0, 0, speed) * Time.deltaTime; //move the player
+    }
+
+    private IEnumerator SpeedBoost()
+    {
+        yield return new WaitForSeconds(6f);
+        movement = Movement.Walking;
+        boost = false;
     }
 }

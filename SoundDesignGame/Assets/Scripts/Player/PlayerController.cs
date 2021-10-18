@@ -25,7 +25,10 @@ public class PlayerController : MonoBehaviour
     public Movement movement;
     public Stamina stamina;
 
+    public EnemyMovement enemyMovement;
+
     private float speed;
+    [SerializeField]private bool canShoot = false;
 
     public enum Movement
     {
@@ -48,6 +51,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         playerSounds = GetComponent<PlayerSounds>();
+        enemyMovement.GetComponent<EnemyMovement>();
         movement = Movement.InTutorial;
         stamina = Stamina.Full;
         staminaRemaining = maxStamina;
@@ -101,9 +105,20 @@ public class PlayerController : MonoBehaviour
         }
 
         if (movement == Movement.InTutorial) return; //dont move or lose stamina while in tutorial
-
+        if (Input.GetKey(KeyCode.Space))
+        {
+            CanShoot();
+        }
         Inputs();
         StaminaCheck();
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if(collision.gameObject.tag == "BulletGiver")
+        {
+            canShoot = true;
+        }
     }
 
     private void Inputs()
@@ -135,5 +150,14 @@ public class PlayerController : MonoBehaviour
         if (movement == Movement.InTutorial) return; //return als we nog in de tutorial zitten
 
         transform.position += new Vector3(0, 0, speed) * Time.deltaTime; //move the player
+    }
+
+    private void CanShoot()
+    {
+        if (canShoot)
+        {
+            enemyMovement.StartCoroutine("GetShot");
+            canShoot = false;
+        }
     }
 }

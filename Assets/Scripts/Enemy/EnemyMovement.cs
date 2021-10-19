@@ -19,9 +19,14 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float runningRange;
     [SerializeField] private float runningSpeed;
 
+    [SerializeField] private float runningSpeedMin;
+    [SerializeField] private float runningSpeedMax;
+
     [Header("WALKING STATE")]
     [SerializeField] private float walkingRange;
     [SerializeField] private float walkingSpeed;
+    [SerializeField] private float walkingSpeedMin;
+    [SerializeField] private float walkingSpeedMax;
 
     [Header("ATTACKING STATE")]
     [SerializeField] private float attackingRange;
@@ -56,6 +61,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Start()
     {
+        InvokeRepeating("randomizeSpeed", 0f, 10.0f);
         player = GameObject.Find("Player");
         enemyGameObject = GameObject.Find("Enemy");
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -156,6 +162,16 @@ public class EnemyMovement : MonoBehaviour
             gameManager.reset();
         }
     }
+
+    private void randomizeSpeed()
+    {
+        Debug.Log("Randomize speed");
+        runningSpeed = Random.Range(runningSpeedMin, runningSpeedMax);
+        walkingSpeed = Random.Range(walkingSpeedMin, walkingSpeedMax);
+        Debug.Log(runningSpeed);
+        Debug.Log(walkingSpeed);
+
+}
 
     private void OnDrawGizmos()
     {

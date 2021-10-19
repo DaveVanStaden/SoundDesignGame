@@ -16,10 +16,12 @@ public class EnemySounds : MonoBehaviour
     [SerializeField] private AudioClip enemyFootsteps;
 
     private EnemyMovement enemy;
+    private GameManager gameManager;
 
     private void Start()
     {
         enemy = GameObject.Find("Enemy").GetComponent<EnemyMovement>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         ConstantRoarSounds();
         EnemyFootstepsWalking();
 
@@ -28,7 +30,8 @@ public class EnemySounds : MonoBehaviour
 
     private void Update()
     {
-        ConstantRoarSounds();
+        if (!gameManager.playerIsDead) { ConstantRoarSounds(); }
+        
     }
 
     public void ConstantRoarSounds()

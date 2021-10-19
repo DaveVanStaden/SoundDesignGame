@@ -33,6 +33,7 @@ public class EnemyMovement : MonoBehaviour
     private bool changeStateCooldown;
 
     private GameObject player;
+    private GameObject enemyGameObject;
     private GameManager gameManager;
     private PlayerController playerController;
     private EnemySounds enemySounds;
@@ -50,6 +51,7 @@ public class EnemyMovement : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player");
+        enemyGameObject = GameObject.Find("Enemy");
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         enemySounds = GetComponentInChildren<EnemySounds>();
@@ -57,6 +59,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
+        checkDistancePlayer();
         if (playerController.movement == PlayerController.Movement.InTutorial) return;
 
         //speedMultiplier += Time.deltaTime * difficulty; //multiplier to increase difficulty over time
@@ -140,5 +143,14 @@ public class EnemyMovement : MonoBehaviour
 
         Handles.color = Color.black;
         Handles.DrawWireDisc(transform.position, new Vector3(0f, transform.forward.z, 0f), attackingRange * 2);
+    }
+
+    private void checkDistancePlayer()
+    {
+        if (Mathf.Abs(player.transform.position.z - enemyGameObject.transform.position.z) < 2 && !gameManager.playerIsDead)
+        {
+            Debug.Log("Player died");
+            gameManager.restartMode();
+        }
     }
 } //yo

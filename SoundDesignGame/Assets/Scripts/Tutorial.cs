@@ -30,6 +30,7 @@ public class Tutorial : MonoBehaviour
 
     public IEnumerator StartGame()
     {
+        
         StartCoroutine("Footsteps");
         yield return new WaitForSeconds(amountOfFootsteps * timeBetweenFootsteps);
         audioSource.PlayOneShot(alarm);

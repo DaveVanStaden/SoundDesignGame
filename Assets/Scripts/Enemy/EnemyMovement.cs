@@ -37,6 +37,7 @@ public class EnemyMovement : MonoBehaviour
     private bool changeStateCooldown;
 
     private GameObject player;
+    private GameObject enemyGameObject;
     private GameManager gameManager;
     private PlayerController playerController;
     private EnemySounds enemySounds;
@@ -56,6 +57,7 @@ public class EnemyMovement : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player");
+        enemyGameObject = GameObject.Find("Enemy");
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         enemySounds = GetComponentInChildren<EnemySounds>();
@@ -65,6 +67,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
+        checkPlayerDistance();
         if (exit.completedGame == true) Destroy(this.gameObject); //finished game so destroy enemy
 
         if (playerController.movement == PlayerController.Movement.InTutorial) return;
@@ -143,6 +146,14 @@ public class EnemyMovement : MonoBehaviour
         else if (Vector3.Distance(transform.position, player.transform.position) < attackingRange)
         {
             enemy = Enemy.Attacking; //zodat we later meerdere hits kunnen implementen
+        }
+    }
+
+    private void checkPlayerDistance()
+    {
+        if(playerController.died)
+        {
+            gameManager.reset();
         }
     }
 

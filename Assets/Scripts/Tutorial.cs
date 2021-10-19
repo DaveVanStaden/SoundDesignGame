@@ -80,6 +80,7 @@ public class Tutorial : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             StopAllCoroutines();
+            audioSource.Stop();
             player.movement = PlayerController.Movement.Walking;
             player.stamina = PlayerController.Stamina.Full;
         }

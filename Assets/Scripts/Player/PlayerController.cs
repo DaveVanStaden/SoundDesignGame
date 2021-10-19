@@ -102,16 +102,16 @@ public class PlayerController : MonoBehaviour
                 playerSounds.RunningSounds();
                 if (currentTime <= 0f)
                 {
-                    if (health != 0)
+                    if (health > 0)
                     {
                         health--;
                         speed = 8f;
                         playerSounds.PlayerDyingSound();
                         staminaRemaining = 7f;
                     }
-                    else
+                    if (health < 1) {
                         died = true;
-
+                    }
                     currentTime = maxTime;
                 }
                 if (!boost) StartCoroutine("SpeedBoost");

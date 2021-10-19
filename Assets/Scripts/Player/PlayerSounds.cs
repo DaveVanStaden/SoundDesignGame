@@ -5,8 +5,9 @@ using UnityEngine;
 public class PlayerSounds : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSourceWalking;
-    [SerializeField] private AudioSource audioSourceBreathing;
+    public AudioSource audioSourceBreathing;
     [SerializeField] private AudioSource audioSourceDies;
+    [SerializeField] private AudioSource audioSourceGun;
 
     private PlayerController player;
     private Exit exit;
@@ -34,6 +35,12 @@ public class PlayerSounds : MonoBehaviour
     [SerializeField] private List<AudioClip> enemyHitSound = new List<AudioClip>();
     [SerializeField] private AudioClip growl;
     [SerializeField] private AudioClip gunShot;
+    [SerializeField] private AudioClip areYouDead;
+
+    [Header("GUN")]
+    [SerializeField] private AudioClip shot;
+    [SerializeField] private AudioClip outOfBullets;
+    [SerializeField] private AudioClip stunned;
 
     private void Start()
     {
@@ -50,7 +57,7 @@ public class PlayerSounds : MonoBehaviour
 
     public IEnumerator WalkingLoop()
     {
-        if (exit.completedGame) yield break;
+        if (exit.completedGame || player.movement == PlayerController.Movement.Tired || player.died) yield break;
         randomWalkFootstep = Random.Range(0, walkingFootsteps.Count);
         audioSourceWalking.PlayOneShot(walkingFootsteps[randomWalkFootstep]);
         yield return new WaitForSeconds(walkingTimeBetweenFootsteps);
@@ -71,9 +78,10 @@ public class PlayerSounds : MonoBehaviour
 
     public IEnumerator RunningLoop()
     {
-        if (exit.completedGame) yield break;
+        if (exit.completedGame || player.movement == PlayerController.Movement.Tired || player.died) yield break;
         randomRunFootstep = Random.Range(0, runningFootsteps.Count);
         audioSourceWalking.PlayOneShot(runningFootsteps[randomRunFootstep]);
+        if (player.staminaRemaining < player.maxStamina * 0.3f) runningTimeBetweenFootsteps = 0.65f;
         yield return new WaitForSeconds(runningTimeBetweenFootsteps);
         if (player.movement != PlayerController.Movement.Running)
         {
@@ -85,7 +93,7 @@ public class PlayerSounds : MonoBehaviour
 
     public void StaminaSound(float staminaVolume, int clipNumber)
     {
-        if (dead) return;
+        if (player.died) return;
         if (player.movement == PlayerController.Movement.InTutorial) return;
         audioSourceBreathing.volume = staminaVolume;
         if (audioSourceBreathing.isPlaying) return;
@@ -94,8 +102,7 @@ public class PlayerSounds : MonoBehaviour
 
     public void PlayerDyingSound()
     {
-        if (dead || takingDmg) return;
-        i++;
+        if (player.died || takingDmg) return;
         StartCoroutine("PlayHitSound");
     }
 
@@ -107,12 +114,33 @@ public class PlayerSounds : MonoBehaviour
         audioSourceDies.PlayOneShot(growl);
         yield return new WaitForSeconds(1f);
         audioSourceDies.PlayOneShot(playerHitSound[i]);
+        i++;
         takingDmg = false;
         yield break;
     }
 
-    private void ShotSound()
+    public void ShotSound()
     {
-        audioSourceDies.PlayOneShot(gunShot);
+        audioSourceGun.PlayOneShot(shot);
+        StartCoroutine("Stunned");
+    }
+
+    private IEnumerator Stunned()
+    {
+        yield return new WaitForSeconds(1.5f);
+        audioSourceGun.clip = stunned;
+        audioSourceGun.Play();
+    }
+
+    public void CantShotSound()
+    {
+        audioSourceGun.clip = outOfBullets;
+        audioSourceGun.Play();
+    }
+
+    public IEnumerator DieSound()
+    {
+        yield return new WaitForSeconds(4f);
+        audioSourceDies.PlayOneShot(areYouDead);
     }
 }

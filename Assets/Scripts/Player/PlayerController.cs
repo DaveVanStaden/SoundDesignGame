@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("STAMINA")]
     [SerializeField] private float minStamina;
-    [SerializeField] private float maxStamina;
-    [SerializeField] private float staminaRemaining;
+    public float maxStamina;
+    public float staminaRemaining;
 
     [Header("WALKING STATE")]
     [SerializeField] private float walkingSpeed;
@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private float maxTime = 7f;
     public bool died = false;
     private bool boost;
+    private bool newSound;
 
     public bool canShoot = true;
 
@@ -76,12 +77,12 @@ public class PlayerController : MonoBehaviour
 
         if (died) return;
 
-        if (stamina == Stamina.Out)
+        /*if (stamina == Stamina.Out)
         {
             // = Movement.Hit;
             speed = 0f;
             return;
-        }
+        }*/
 
         switch (movement)
         {
@@ -107,10 +108,12 @@ public class PlayerController : MonoBehaviour
                         health--;
                         speed = 8f;
                         playerSounds.PlayerDyingSound();
-                        staminaRemaining = 7f;
+                        staminaRemaining = 5f;
                     }
                     if (health < 1) {
                         died = true;
+                        speed = 0f;
+                        playerSounds.StartCoroutine("DieSound");
                     }
                     currentTime = maxTime;
                 }
@@ -119,36 +122,33 @@ public class PlayerController : MonoBehaviour
                 break;
             case Movement.Tired:
                 speed = 0f;
-                staminaRemaining += Time.deltaTime / 0.2f;
-                if (staminaRemaining > 1f)
-                {
-                    movement = Movement.Walking;
-                }
+                Invoke("BackToWalking", 2f);
                 break;
         }
 
         switch (stamina)
         {
             case Stamina.Full:
-                playerSounds.StaminaSound(0.2f, 0);
-                break;
-            case Stamina.High:
                 playerSounds.StaminaSound(0.3f, 0);
                 break;
+            case Stamina.High:
+                playerSounds.StaminaSound(0.4f, 0);
+                break;
             case Stamina.Mid:
-                playerSounds.StaminaSound(0.4f, 1);
+                playerSounds.StaminaSound(0.5f, 1);
                 break;
             case Stamina.Low:
                 playerSounds.StaminaSound(0.5f, 2);
                 break;
             case Stamina.Out:
                 playerSounds.StaminaSound(0.5f, 3);
+                movement = Movement.Tired;
                 break;
         }
 
         if (movement == Movement.InTutorial) return; //dont move or lose stamina while in tutorial
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             ShootBullet();
         }
@@ -157,11 +157,17 @@ public class PlayerController : MonoBehaviour
         StaminaCheck();
     }
 
+    private void BackToWalking()
+    {
+        staminaRemaining = 2f;
+        movement = Movement.Walking;
+    }
+
     private void Inputs()
     {
         if (movement == Movement.Hit || movement == Movement.Tired) return;
 
-        if (Input.GetKey(KeyCode.UpArrow)) //running wanneer keycode arrowup, else walking
+        if (Input.GetKey(KeyCode.Mouse0)) //running wanneer mouse0, else walking
             movement = Movement.Running;
         else
             movement = Movement.Walking;
@@ -181,6 +187,7 @@ public class PlayerController : MonoBehaviour
             stamina = Stamina.Low;
         else if (staminaRemaining <= minStamina)
             stamina = Stamina.Out;
+            
     }
 
     private void FixedUpdate() //movement
@@ -199,10 +206,16 @@ public class PlayerController : MonoBehaviour
 
     private void ShootBullet()
     {
-        if (canShoot)
+        if (!canShoot)
         {
-            canShoot = false;
+            playerSounds.CantShotSound();
+            
+        }
+        else
+        {
+            playerSounds.ShotSound();
             enemyMovement.StartCoroutine("GetShot");
+            canShoot = false;
         }
     }
 }

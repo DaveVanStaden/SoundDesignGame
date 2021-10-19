@@ -219,6 +219,133 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 55083146}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &296564434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 296564436}
+  - component: {fileID: 296564435}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &296564435
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296564434}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &296564436
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296564434}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 564303315}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &372119462
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,6 +577,7 @@ Transform:
   - {fileID: 963194228}
   - {fileID: 1785358254}
   - {fileID: 642975398}
+  - {fileID: 296564436}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -492,6 +620,7 @@ MonoBehaviour:
   audioSourceWalking: {fileID: 564303318}
   audioSourceBreathing: {fileID: 564303319}
   audioSourceDies: {fileID: 564303318}
+  audioSourceGun: {fileID: 296564435}
   walkingFootsteps:
   - {fileID: 8300000, guid: 21c6159f787ad214b97dbc54f7652cf4, type: 3}
   - {fileID: 8300000, guid: 7135f03db3b670048bf276b275083686, type: 3}
@@ -521,11 +650,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f96ce6d4de3e7f74eb9b524c9559c016, type: 3}
   - {fileID: 8300000, guid: 8e89848a7897f8445a493d44b519c408, type: 3}
   enemyHitSound:
-  - {fileID: 8300000, guid: 44fdc9f69e963a74da8fc34096700624, type: 3}
-  - {fileID: 8300000, guid: 3ada26eb2d260024d8fa510500bdf12b, type: 3}
-  - {fileID: 8300000, guid: 35c77bd4c7848324398ff41f6d34ff78, type: 3}
+  - {fileID: 8300000, guid: 5baffdf6a16abee4084a4b5e323a3abf, type: 3}
+  - {fileID: 8300000, guid: 5baffdf6a16abee4084a4b5e323a3abf, type: 3}
+  - {fileID: 8300000, guid: 5baffdf6a16abee4084a4b5e323a3abf, type: 3}
   growl: {fileID: 8300000, guid: 5baffdf6a16abee4084a4b5e323a3abf, type: 3}
-  gunShot: {fileID: 0}
+  gunShot: {fileID: 8300000, guid: a6dc700f670488a4288f9e351cf4b175, type: 3}
+  areYouDead: {fileID: 8300000, guid: f51e7b9eeb6c6ed40bded5986d86a6e3, type: 3}
+  shot: {fileID: 8300000, guid: a6dc700f670488a4288f9e351cf4b175, type: 3}
+  outOfBullets: {fileID: 8300000, guid: 6aa21c18954814e489fc4daefd1c777c, type: 3}
+  stunned: {fileID: 8300000, guid: cbd70819cf654024281ca12d6cf00cc0, type: 3}
 --- !u!82 &564303318
 AudioSource:
   m_ObjectHideFlags: 0
@@ -538,7 +671,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.462
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1104,7 +1237,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.236
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1231,7 +1364,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.278
+  m_Volume: 0.102
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1240,9 +1373,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0
-  MaxDistance: 17.4
+  MaxDistance: 16.64
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1254,6 +1387,15 @@ AudioSource:
       value: 1
       inSlope: 0
       outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9322528
+      value: 0.26171088
+      inSlope: -1.497427
+      outSlope: -1.497427
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
@@ -1336,7 +1478,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0
-  MaxDistance: 9.78
+  MaxDistance: 7.21
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -1423,10 +1565,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9acda63abc6d894cb1fcede8e555cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 1096614096}
+  audioSource: {fileID: 1096614095}
   audioSourceRoar: {fileID: 1096614096}
   roar: {fileID: 8300000, guid: 6edbf42d47e6c7a45a6264f66f6f0b31, type: 3}
-  enemyHit: {fileID: 0}
+  enemyHit: {fileID: 8300000, guid: 5baffdf6a16abee4084a4b5e323a3abf, type: 3}
   enemyFootsteps:
   - {fileID: 8300000, guid: 17bcd4aabb7e783438042d68a3332d8c, type: 3}
   - {fileID: 8300000, guid: ad2abb6af825eb948ab8825b26b9fba7, type: 3}
@@ -1450,8 +1592,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 17aa58e596d57d84796d14f28ce445d0, type: 3}
   - {fileID: 8300000, guid: 7b9e57da142bba34094e71ea0cbf35bb, type: 3}
   - {fileID: 8300000, guid: fc76c5fb02eaa6c4fbfefeec46241d8c, type: 3}
-  timeBetweenWalkingFootsteps: 0.6
-  timeBetweenRunningFootsteps: 0.3
 --- !u!1 &1215084661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1481,6 +1621,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a35cced3a9ff3904fad06f89aa28fa21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exit: {fileID: 0}
+  playerIsDead: 0
 --- !u!4 &1215084663
 Transform:
   m_ObjectHideFlags: 0
@@ -1732,7 +1874,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1686651709}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.62, y: 1.46, z: -619.4}
+  m_LocalPosition: {x: -0.62, y: 1.46, z: -671.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1096614094}
@@ -1751,17 +1893,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c73d07670f2c2dc45b7f2e003cc03df2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
   difficulty: 1
   changeStateCooldownTimer: 3
   maxDistanceFromPlayer: 50
   runningRange: 30
   runningSpeed: 2.5
+  runningSpeedMin: 4
+  runningSpeedMax: 7
   walkingRange: 2
   walkingSpeed: 2.5
+  walkingSpeedMin: 2.5
+  walkingSpeedMax: 4
   attackingRange: 1
   freezeTime: 3
   freezeStatesRemaining: 5
-  shotTime: 3
+  shotTime: 5
   enemy: 0
 --- !u!1 &1719160425
 GameObject:
@@ -1999,12 +2146,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 71118e1365fc43e4196373da7d4f3476, type: 3}
   - {fileID: 8300000, guid: 66533aec1102c1c439896b0db648b751, type: 3}
   alarm: {fileID: 8300000, guid: d90b833462085704793986b813e714e6, type: 3}
-  whatsThatNoise: {fileID: 8300000, guid: 8b1e3b25f6ea3f0499add943286d733b, type: 3}
-  needToGetOut: {fileID: 8300000, guid: 4ab4cd86d07fb954fb467730ef2d8373, type: 3}
+  whatsThatNoise: {fileID: 8300000, guid: 50842b1f60027e44a90f99d84a45e106, type: 3}
+  needToGetOut: {fileID: 8300000, guid: 2f7750a6c6041824f9707d15019ac8b1, type: 3}
+  broughtMyGun: {fileID: 8300000, guid: 8d4e635b818a50342aa46e7398700469, type: 3}
   timeBetweenFootsteps: 0.9
-  amountOfFootsteps: 15
+  amountOfFootsteps: 24
   tutorialStory: {fileID: 8300000, guid: 6a1de2dceacabc94f82958d29451c7c5, type: 3}
-  tutorialControls: {fileID: 8300000, guid: b9acbf168360b5949b4c42c29e54b88f, type: 3}
+  tutorialControls: {fileID: 8300000, guid: 2e1962bca00b1684f84b32fe581ba0ef, type: 3}
   audioSource: {fileID: 1785358252}
 --- !u!4 &1785358254
 Transform:

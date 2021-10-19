@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class EnemyMovement : MonoBehaviour
 {
-    private float speed;
+    public float speed;
     private float speedMultiplier;
 
     [SerializeField] private float difficulty;
@@ -61,7 +61,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("randomizeSpeed", 0f, 10.0f);
+        InvokeRepeating("RandomizeSpeed", 0f, 10.0f);
         player = GameObject.Find("Player");
         enemyGameObject = GameObject.Find("Enemy");
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -73,8 +73,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        checkPlayerDistance();
-        if (exit.completedGame == true) Destroy(this.gameObject); //finished game so destroy enemy
+        if (exit.completedGame == true || playerController.died) Destroy(this.gameObject); //finished game so destroy enemy
 
         if (playerController.movement == PlayerController.Movement.InTutorial) return;
 
@@ -94,7 +93,7 @@ public class EnemyMovement : MonoBehaviour
                 playerController.movement = PlayerController.Movement.Hit;
                 break;
             case Enemy.OutOfRange:
-                speed = runningSpeed * 10f; //if player is way too far, make sure enemy stays inside a certain range so it doesnt get too far
+                speed = runningSpeed; //if player is way too far, make sure enemy stays inside a certain range so it doesnt get too far
                 break;
             case Enemy.Freeze:
                 speed = 0f;
@@ -119,6 +118,7 @@ public class EnemyMovement : MonoBehaviour
 
     private IEnumerator GetShot()
     {
+        enemySounds.Shot();
         isFrozen = true;
         yield return new WaitForSeconds(shotTime);
         isFrozen = false;
@@ -155,23 +155,11 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    private void checkPlayerDistance()
+    private void RandomizeSpeed()
     {
-        if(playerController.died)
-        {
-            gameManager.reset();
-        }
-    }
-
-    private void randomizeSpeed()
-    {
-        Debug.Log("Randomize speed");
         runningSpeed = Random.Range(runningSpeedMin, runningSpeedMax);
         walkingSpeed = Random.Range(walkingSpeedMin, walkingSpeedMax);
-        Debug.Log(runningSpeed);
-        Debug.Log(walkingSpeed);
-
-}
+    }
 
     private void OnDrawGizmos()
     {

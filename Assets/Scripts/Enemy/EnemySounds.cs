@@ -15,8 +15,7 @@ public class EnemySounds : MonoBehaviour
 
     [Header("ENEMY NOISES")]
     [SerializeField] private List<AudioClip> enemyFootsteps = new List<AudioClip>();
-    [SerializeField] private float timeBetweenWalkingFootsteps;
-    [SerializeField] private float timeBetweenRunningFootsteps;
+    private float stepsMultiplier;
 
     private float timeBetweenFootsteps;
 
@@ -48,9 +47,14 @@ public class EnemySounds : MonoBehaviour
 
     private void TimeBetweenFootsteps()
     {
-        if (enemy.enemy == EnemyMovement.Enemy.Walking) timeBetweenFootsteps = timeBetweenWalkingFootsteps;
-        else
-            timeBetweenFootsteps = timeBetweenRunningFootsteps;
+        if (enemy.speed < 3f) timeBetweenFootsteps = 0.8f;
+        if (enemy.speed > 3f && enemy.speed < 5f) timeBetweenFootsteps = 0.6f;
+        if (enemy.speed > 0.5f) timeBetweenFootsteps = 0.4f;
+    }
+
+    public void Shot()
+    {
+        StartCoroutine("HitSound");
     }
 
     private IEnumerator HitSound()

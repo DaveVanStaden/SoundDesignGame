@@ -11,6 +11,7 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private AudioClip alarm;
     [SerializeField] private AudioClip whatsThatNoise;
     [SerializeField] private AudioClip needToGetOut;
+    [SerializeField] private AudioClip broughtMyGun;
     [SerializeField] private float timeBetweenFootsteps;
     [SerializeField] private float amountOfFootsteps;
     private int randomFootstep;
@@ -22,22 +23,33 @@ public class Tutorial : MonoBehaviour
     public AudioSource audioSource;
     private PlayerController player;
     private GameManager gameManager;
+    private Exit exit;
+    private PlayerController playerController;
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        exit = GameObject.Find("End").GetComponent<Exit>();
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     public IEnumerator StartGame()
     {
+        StartCoroutine("BroughtGun");
         StartCoroutine("Footsteps");
-        yield return new WaitForSeconds(amountOfFootsteps * timeBetweenFootsteps);
+        yield return new WaitForSeconds((amountOfFootsteps * timeBetweenFootsteps));
         audioSource.PlayOneShot(alarm);
         yield return new WaitForSeconds(5f);
         StartCoroutine("PlayTutorial");
         yield break;
+    }
+
+    private IEnumerator BroughtGun()
+    {
+        yield return new WaitForSeconds(4f);
+        audioSource.PlayOneShot(broughtMyGun);
     }
 
     public IEnumerator Footsteps()
@@ -50,7 +62,7 @@ public class Tutorial : MonoBehaviour
 
             if (i == amountOfFootsteps)
             {
-                yield return new WaitForSeconds(3f);
+                yield return new WaitForSeconds(1.5f);
                 audioSource.PlayOneShot(whatsThatNoise);
             }
 

@@ -11,6 +11,7 @@ public class EnemySounds : MonoBehaviour
 
     [Header("ROAR")]
     [SerializeField] private AudioClip roar;
+    [SerializeField] private AudioClip enemyHit;
 
     [Header("ENEMY NOISES")]
     [SerializeField] private List<AudioClip> enemyFootsteps = new List<AudioClip>();
@@ -37,7 +38,7 @@ public class EnemySounds : MonoBehaviour
 
     private IEnumerator PlayFootsteps()
     {
-        if (enemy.enemy == EnemyMovement.Enemy.KilledPlayer) yield break;
+        if (enemy.enemy == EnemyMovement.Enemy.KilledPlayer || enemy.enemy == EnemyMovement.Enemy.Freeze) yield break;
         TimeBetweenFootsteps();
         int randomFootstep = Random.Range(0, enemyFootsteps.Count);
         audioSource.PlayOneShot(enemyFootsteps[randomFootstep]);
@@ -50,5 +51,12 @@ public class EnemySounds : MonoBehaviour
         if (enemy.enemy == EnemyMovement.Enemy.Walking) timeBetweenFootsteps = timeBetweenWalkingFootsteps;
         else
             timeBetweenFootsteps = timeBetweenRunningFootsteps;
+    }
+
+    private IEnumerator HitSound()
+    {
+        audioSourceRoar.PlayOneShot(enemyHit);
+        yield return new WaitForSeconds(enemy.shotTime + 0.1f);
+        StartCoroutine("PlayFootsteps");
     }
 }

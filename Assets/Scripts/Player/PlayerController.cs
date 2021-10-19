@@ -21,12 +21,15 @@ public class PlayerController : MonoBehaviour
 
     public Movement movement;
     public Stamina stamina;
+    public EnemyMovement enemyMovement;
 
     public float speed;
     private float currentTime;
     private float maxTime = 7f;
     public bool died = false;
     private bool boost;
+
+    public bool canShoot = true;
 
     private Exit exit;
 
@@ -51,6 +54,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         playerSounds = GetComponent<PlayerSounds>();
+        enemyMovement.GetComponent<EnemyMovement>();
         movement = Movement.InTutorial;
         stamina = Stamina.Full;
         staminaRemaining = maxStamina;
@@ -65,7 +69,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if(currentTime > 0f)
+        if (currentTime > 0f)
         {
             currentTime -= Time.deltaTime;
         }
@@ -116,7 +120,7 @@ public class PlayerController : MonoBehaviour
             case Movement.Tired:
                 speed = 0f;
                 staminaRemaining += Time.deltaTime / 0.2f;
-                if(staminaRemaining > 1f)
+                if (staminaRemaining > 1f)
                 {
                     movement = Movement.Walking;
                 }
@@ -143,6 +147,11 @@ public class PlayerController : MonoBehaviour
         }
 
         if (movement == Movement.InTutorial) return; //dont move or lose stamina while in tutorial
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            ShootBullet();
+        }
 
         Inputs();
         StaminaCheck();
@@ -186,5 +195,14 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(6f);
         movement = Movement.Walking;
         boost = false;
+    }
+
+    private void ShootBullet()
+    {
+        if (canShoot)
+        {
+            canShoot = false;
+            enemyMovement.StartCoroutine("GetShot");
+        }
     }
 }

@@ -31,6 +31,9 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private int freezeStatesRemaining;
     private bool isFrozen = false;
 
+    [Header("Shot State")]
+    public float shotTime;
+
     private bool changeStateCooldown;
 
     private GameObject player;
@@ -105,6 +108,12 @@ public class EnemyMovement : MonoBehaviour
         isFrozen = false;
     }
 
+    private IEnumerator GetShot()
+    {
+        isFrozen = true;
+        yield return new WaitForSeconds(shotTime);
+        isFrozen = false;
+    }
     private IEnumerator Cooldown() //dont switch state too often
     {
         changeStateCooldown = true;

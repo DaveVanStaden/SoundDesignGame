@@ -33,6 +33,7 @@ public class PlayerSounds : MonoBehaviour
     [SerializeField] private List<AudioClip> playerHitSound = new List<AudioClip>();
     [SerializeField] private List<AudioClip> enemyHitSound = new List<AudioClip>();
     [SerializeField] private AudioClip growl;
+    [SerializeField] private AudioClip gunShot;
 
     private void Start()
     {
@@ -108,5 +109,10 @@ public class PlayerSounds : MonoBehaviour
         audioSourceDies.PlayOneShot(playerHitSound[i]);
         takingDmg = false;
         yield break;
+    }
+
+    private void ShotSound()
+    {
+        audioSourceDies.PlayOneShot(gunShot);
     }
 }

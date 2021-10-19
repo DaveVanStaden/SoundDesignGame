@@ -364,6 +364,7 @@ GameObject:
   - component: {fileID: 564303317}
   - component: {fileID: 564303318}
   - component: {fileID: 564303319}
+  - component: {fileID: 564303320}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -472,8 +473,10 @@ MonoBehaviour:
   runningSpeed: 6
   movement: 0
   stamina: 0
+  enemyMovement: {fileID: 1686651714}
   speed: 0
   died: 0
+  canShoot: 1
 --- !u!114 &564303317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,6 +525,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3ada26eb2d260024d8fa510500bdf12b, type: 3}
   - {fileID: 8300000, guid: 35c77bd4c7848324398ff41f6d34ff78, type: 3}
   growl: {fileID: 8300000, guid: 5baffdf6a16abee4084a4b5e323a3abf, type: 3}
+  gunShot: {fileID: 0}
 --- !u!82 &564303318
 AudioSource:
   m_ObjectHideFlags: 0
@@ -714,6 +718,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!54 &564303320
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564303311}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 118
+  m_CollisionDetection: 0
 --- !u!1 &642975397
 GameObject:
   m_ObjectHideFlags: 0
@@ -1406,6 +1426,7 @@ MonoBehaviour:
   audioSource: {fileID: 1096614096}
   audioSourceRoar: {fileID: 1096614096}
   roar: {fileID: 8300000, guid: 6edbf42d47e6c7a45a6264f66f6f0b31, type: 3}
+  enemyHit: {fileID: 0}
   enemyFootsteps:
   - {fileID: 8300000, guid: 17bcd4aabb7e783438042d68a3332d8c, type: 3}
   - {fileID: 8300000, guid: ad2abb6af825eb948ab8825b26b9fba7, type: 3}
@@ -1740,6 +1761,7 @@ MonoBehaviour:
   attackingRange: 1
   freezeTime: 3
   freezeStatesRemaining: 5
+  shotTime: 3
   enemy: 0
 --- !u!1 &1719160425
 GameObject:
